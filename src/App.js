@@ -1,24 +1,45 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import "./App.css";
+import SearchBar from "./components/SearchBar";
+import Playlist from "./components/Playlist";
+import SearchResults from "./components/SearchResults";
+import SpotifyAuth from "./SpotifyAuth";
 
 function App() {
+  const [searchResults, setSearchResults] = useState([]);
+  const [playlistName, setPlaylistName] = useState("My Playlist");
+  const [playlistTracks, setPlaylistTracks] = useState([]);
+  const [tracks, setTracks] = useState([]);
+
+  const searchSpotify = (searchTerm) => {
+    SpotifyAuth.search(searchTerm).then((results) => {
+      setTracks(results);
+    });
+  };
+
+  const addTrackToPlaylist = (track) => {
+    if (!playlistTracks.find((savedTrack) => savedTrack.id === track.id)) {
+      setPlaylistTracks((prev) => [...prev, track]);
+    }
+  };
+
+  function removeTrack(trackId) {
+    setPlaylistTracks((prevTracks) =>
+      prevTracks.filter((track) => track.id !== trackId)
+    );
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <SearchBar onSearch={searchSpotify} />
+      <SearchResults tracks={tracks} addTrack={addTrackToPlaylist} />
+      <Playlist
+        setPlaylistName={setPlaylistName}
+        playlistName={playlistName}
+        playlistTracks={playlistTracks}
+        removeTrack={removeTrack}
+      />
+    </>
   );
 }
 
