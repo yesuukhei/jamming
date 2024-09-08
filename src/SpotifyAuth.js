@@ -23,14 +23,16 @@ const Spotify = {
       expiresIn = Number(expiresInMatch[1]);
 
       // Step 3a: Set the token to expire after the duration Spotify provides
-      window.setTimeout(() => (accessToken = ''), expiresIn * 1000);
-      window.history.pushState('Access Token', null, '/'); // Step 4: Clear the URL
+      window.setTimeout(() => (accessToken = ""), expiresIn * 1000);
+      window.history.pushState("Access Token", null, "/"); // Step 4: Clear the URL
 
       return accessToken;
     } else {
       // Step 1: Redirect user to Spotify authorization page if no token is found
-      const scopes = 'playlist-modify-public playlist-modify-private';
-      const url = `https://accounts.spotify.com/authorize?client_id=${clientId}&response_type=token&scope=${encodeURIComponent(scopes)}&redirect_uri=${encodeURIComponent(redirectUri)}`;
+      const scopes = "playlist-modify-public playlist-modify-private";
+      const url = `https://accounts.spotify.com/authorize?client_id=${clientId}&response_type=token&scope=${encodeURIComponent(
+        scopes
+      )}&redirect_uri=${encodeURIComponent(redirectUri)}`;
       window.location = url;
     }
   },

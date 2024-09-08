@@ -6,12 +6,12 @@ function Playlist({
   playlistName,
   playlistTracks,
   removeTrack,
+  saveToSpotify,
+  addTrackToSpotifyPlaylist,
 }) {
   function handlePlaylistName(e) {
     setPlaylistName(e.target.value);
   }
-
-  function saveToSpotify() {}
 
   return (
     <div>
@@ -19,7 +19,9 @@ function Playlist({
 
       <Tracklist tracks={playlistTracks} removeTrack={removeTrack} />
 
-      <button onSubmit={saveToSpotify}>Save To Spotify</button>
+      <button onClick={() => addTrackToSpotifyPlaylist()}>
+        Save To Spotify
+      </button>
     </div>
   );
 }
